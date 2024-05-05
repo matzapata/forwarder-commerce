@@ -3,7 +3,8 @@ import { paymentsController } from './controllers/payments.controller';
 import { z } from 'zod';
 import { prismaService } from './services/prisma.service';
 import chalk from 'chalk';
-import { printPayment } from './utils/console';
+import { printPayment, printWithdrawalJob } from './utils/console';
+import { withdrawalsController } from './controllers/withdrawals.controller';
 
 program
     .name('forwarder-commerce')
@@ -15,23 +16,33 @@ program.command('create')
     .argument('<string>', 'amount')
     .argument('<string>', 'token')
     .argument('<string>', 'chain')
-    .action(async (amount, token, chain) => {
+    .argument('<string>', 'forwardTo')
+    .action(async (amount, token, chain, forwardTo) => {
         // validate input
         const createSchema = z.object({
             amount: z.string(),
             token: z.string(),
-            chain: z.string()
+            chain: z.string(),
+            forwardTo: z.string(),
         });
-        const params = createSchema.parse({ amount, token, chain });
+        const params = createSchema.parse({ amount, token, chain, forwardTo });
+        if (Object.values(Chains).includes(params.chain as Chains) === false) {
+            throw new Error("Invalid chain")
+        }
 
         // call controller
-        const { payment, withdrawalJob } = await paymentsController.create(params)
+        const { payment, withdrawalJob } = await paymentsController.create({
+            amount: params.amount,
+            token: params.token,
+            chain: params.chain as Chains,
+            forwardTo: params.forwardTo
+        })
 
         // print result
         console.log(chalk.blue("Payment:"))
         printPayment(payment)
-        // console.log(chalk.blue("Withdrawal Job:"))
-        // console.log("id: ", withdrawalJob.id)
+        console.log(chalk.blue("Withdrawal Job:"))
+        printWithdrawalJob(withdrawalJob)
     });
 
 program.command('find')
@@ -59,15 +70,8 @@ program.command('find-all')
         }
     });
 
-program.command('start-withdrawal-worker')
-    .description('Start a withdrawal worker')
-    .action(async () => {
-        const workerId = await paymentsController.startWithdrawalWorker()
-        console.log(chalk.green("Worker started with id: ", workerId))
-    });
-
 program.command('withdraw')
-    .description('Withdraw payment to user wallet')
+    .description('Manually check if a payment can be withdrawn and do it if possible')
     .argument('<string>', 'id')
     .action(async (id) => {
         // validate input
@@ -75,11 +79,43 @@ program.command('withdraw')
         const paymentId = withdrawSchema.parse(id);
 
         // call controller
-        const {payment, withdrawalJob} = await paymentsController.withdraw(paymentId)
-        console.log(chalk.blue("Payment:"))
-        printPayment(payment)
-        console.log(chalk.blue("Withdrawal Job:"))
-        console.log("id: ", withdrawalJob.id)
+        // const { payment, withdrawalJob } = await withdrawalsController.consume(paymentId)
+
+        // print result
+        // console.log(chalk.blue("Payment:"))
+        // printPayment(payment)
+        // console.log(chalk.blue("Withdrawal Job:"))
+        // console.log("id: ", withdrawalJob.id)
+    });
+
+program.command('withdraw-worker')
+    .description('Start a withdrawal worker')
+    .action(async () => {
+        console.log(chalk.green("Starting withdrawal worker"))
+        withdrawalsController.startWorker()
+    });
+
+program.command('withdraw-jobs-find')
+    .description('Find withdrawal job by id')
+    .argument('<string>', 'id')
+    .action(async (id) => {
+        // validate input
+        const withdrawSchema = z.string();
+        const withdrawalId = withdrawSchema.parse(id);
+
+        const withdrawalJob = await withdrawalsController.findById(withdrawalId)
+        if (!withdrawalJob) console.log(chalk.red('Withdrawal job not found'))
+        else printWithdrawalJob(withdrawalJob)
+
+    });
+
+program.command('withdraw-jobs-find-all')
+    .description('Find all withdrawal jobs')
+    .action(async () => {
+        const withdrawalJob = await withdrawalsController.findAll()
+        for (const job of withdrawalJob) {
+            console.log("- " + job.id, job.paymentId, job.status)
+        }
     });
 
 prismaService.$connect().then(() => {

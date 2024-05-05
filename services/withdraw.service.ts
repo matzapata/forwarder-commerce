@@ -1,10 +1,11 @@
-import { WithdrawalJobsRepository } from "../repositories/withdrawal-jobs.repository";
+import { Prisma } from "@prisma/client";
+import { WithdrawalJobsRepository, withdrawalJobsRepository } from "../repositories/withdrawal-jobs.repository";
 
 
-export class WithdrawService {
+export class WithdrawalService {
     constructor(private readonly withdrawalRepo: WithdrawalJobsRepository) { }
 
-    async push(data: any) {
+    async push(data: Prisma.WithdrawalJobCreateInput) {
         return this.withdrawalRepo.create(data);
     }
 
@@ -26,4 +27,14 @@ export class WithdrawService {
     canWithdraw(id: string) {
 
     }
+
+    async findById(id: string) {
+        return this.withdrawalRepo.findById(id);
+    }
+
+    async findAll() {
+        return this.withdrawalRepo.findAll();
+    }
 }
+
+export const withdrawalService = new WithdrawalService(withdrawalJobsRepository);

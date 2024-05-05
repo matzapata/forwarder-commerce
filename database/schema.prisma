@@ -19,6 +19,7 @@ model Payment {
   status           String
   salt             String
   forwarderAddress String
+  forwardTo        String
 
   // timestamps
   expiredAt DateTime
@@ -35,8 +36,10 @@ model WithdrawalJob {
   hash   String?
 
   // timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  starterAt   DateTime?
+  completedAt DateTime?
+  scheduledAt DateTime?
 
   // relationships
   payment   Payment? @relation(fields: [paymentId], references: [id])

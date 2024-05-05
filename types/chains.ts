@@ -1,0 +1,4 @@
+
+enum Chains {
+    POLYGON = "POLYGON"
+}

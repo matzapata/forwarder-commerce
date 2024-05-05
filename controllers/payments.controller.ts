@@ -1,30 +1,32 @@
 import { Payment, WithdrawalJob } from "@prisma/client";
-import { ForwarderService, forwarderService } from "../services/forwarder-factory.service";
+import { ForwarderFactoryService, forwarderFactoryService } from "../services/forwarder-factory.service";
 import { PaymentsService, paymentsService } from "../services/payments.service";
 import { PaymentStatus } from "../types/payment-status";
-import { ConfigService, configService } from "../services/config.service";
+import { WithdrawalService, withdrawalService } from "../services/withdraw.service";
+import { WithdrawalJobStatus } from "../types/withdrawal-job-status";
 
 
 class PaymentsController {
 
     constructor(
-        private readonly forwarderService: ForwarderService,
+        private readonly forwarderService: ForwarderFactoryService,
         private readonly paymentsService: PaymentsService,
-        private readonly configService: ConfigService
+        private readonly withdrawalService: WithdrawalService,
     ) { }
 
-    async create(params: { amount: string, token: string, chain: string }): Promise<{
+    async create(params: { amount: string, token: string, chain: Chains, forwardTo: string }): Promise<{
         payment: Payment,
-        withdrawalJob: WithdrawalJob | null
+        withdrawalJob: WithdrawalJob
     }> {
         // compute address
-        const { salt, address } = await this.forwarderService.computeAddress(this.configService.get("FORWARD_TO"));
+        const { salt, address } = await this.forwarderService.computeAddress(params.chain, params.forwardTo);
 
         // save payment to db
         const payment = await this.paymentsService.create({
             amount: params.amount,
             token: params.token,
             chain: params.chain,
+            forwardTo: params.forwardTo,
             forwarderAddress: address,
             salt: salt,
             expiredAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
@@ -32,10 +34,12 @@ class PaymentsController {
         });
 
         // cerate withdrawal job
+        const withdrawalJob = await this.withdrawalService.push({
+           status: WithdrawalJobStatus.PENDING,
+           payment: { connect: { id: payment.id } }
+        });
 
-
-        return { payment, withdrawalJob: null }
-        // throw new Error("Method not implemented.")
+        return { payment, withdrawalJob }
     }
 
     findById(id: string): Promise<Payment | null> {
@@ -45,23 +49,10 @@ class PaymentsController {
     findAll(): Promise<Payment[]> {
         return this.paymentsService.findAll()
     }
-
-    startWithdrawalWorker(): Promise<string> {
-        // Start the withdrawal worker
-        throw new Error("Method not implemented.")
-    }
-
-    withdraw(id: string): Promise<{
-        payment: Payment,
-        withdrawalJob: WithdrawalJob
-    }> {
-        // Withdraw payment to user wallet
-        throw new Error("Method not implemented.")
-    }
 }
 
 export const paymentsController = new PaymentsController(
-    forwarderService,
+    forwarderFactoryService,
     paymentsService,
-    configService
+    withdrawalService,
 );

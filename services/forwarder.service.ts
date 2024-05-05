@@ -1,6 +1,13 @@
 
 export class ForwarderService {
 
+    
+    constructor() { 
+
+
+    }
+
+
     canFlush(token: string, amount: string): Promise<boolean> {    
         // Can flush
 
