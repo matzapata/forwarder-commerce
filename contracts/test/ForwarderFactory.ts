@@ -3,7 +3,7 @@ import {
   loadFixture,
 } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 import { expect } from "chai";
-import hardhat, { ethers } from "hardhat";
+import hardhat from "hardhat";
 import { sha3 } from '@netgum/utils';
 
 describe("ForwarderFactory", function () {
@@ -11,9 +11,8 @@ describe("ForwarderFactory", function () {
     const [owner, otherAccount] = await hardhat.ethers.getSigners();
 
     // deploy the forwarder
-    const Forwarder = await hardhat.ethers.getContractFactory("Forwarder");
     const ForwarderFactory = await hardhat.ethers.getContractFactory("ForwarderFactory");
-    const forwarderFactory = await ForwarderFactory.deploy(Forwarder.bytecode);
+    const forwarderFactory = await ForwarderFactory.deploy();
     const forwarderFactoryAddress = await forwarderFactory.getAddress()
 
 

@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Payment {
+  id               String @id @default(cuid())
+  amount           String
+  token            String
+  chain            String
+  status           String
+  salt             String
+  forwarderAddress String
+
+  // timestamps
+  expiredAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relationships
+  withdrawalJob WithdrawalJob?
+}
+
+model WithdrawalJob {
+  id     String  @id @default(cuid())
+  status String
+  hash   String?
+
+  // timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relationships
+  payment   Payment? @relation(fields: [paymentId], references: [id])
+  paymentId String   @unique
+}

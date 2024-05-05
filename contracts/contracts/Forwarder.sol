@@ -7,22 +7,30 @@ contract Forwarder {
     address public forwardTo;
 
     // events
-    event ForwarderFlushedNative(address to, uint value);
-    event ForwarderFlushedToken(address to, address token, uint value);
+    event ForwarderFlushed(address to, address flusher, address token, uint value);
 
     constructor(address _forwardTo) {
         forwardTo = _forwardTo;
     }
 
-    function flushNative() public {
-        // Forward all funds to parent address
-        (bool success, ) = forwardTo.call{value: address(this).balance}("");
-        require(success, "Flush failed");
-
-        emit ForwarderFlushedNative(forwardTo, address(this).balance);
+    function flush(address token) public {
+        if (token == address(0)) {
+            flushNative();
+        } else {
+            flushToken(token);
+        }
     }
 
-    function flushToken(address token) public {
+    function flushNative() private {
+        // Forward all funds to parent address
+        uint256 balance = address(this).balance;
+        (bool success, ) = forwardTo.call{value: balance}("");
+        require(success, "Flush failed");
+
+        emit ForwarderFlushed(forwardTo, msg.sender, address(0), balance);
+    }
+
+    function flushToken(address token) private {
         // Forward all tokens to parent address
         IERC20 tokenInstance = IERC20(token);
         uint256 balance = tokenInstance.balanceOf(address(this));
@@ -31,7 +39,7 @@ contract Forwarder {
         }
         tokenInstance.transfer(forwardTo, balance);
 
-        emit ForwarderFlushedToken(forwardTo, token, balance);
+        emit ForwarderFlushed(forwardTo, msg.sender, token, balance);
     }
 
     //  Default function; Gets called when native is deposited, and forwards it to the parent address
