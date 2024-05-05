@@ -1,23 +1,20 @@
-<mxfile host="Electron" modified="2024-05-04T15:41:22.637Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.1.0 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="Fjghlx5KFBnpoR4nOVMg" version="24.1.0" type="device">
+<mxfile host="Electron" modified="2024-05-05T09:26:29.876Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.1.0 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="qTHIkXpjABozWf8xaTlt" version="24.1.0" type="device">
   <diagram name="Page-1" id="9uELqQ_YkIboGEW4-qQR">
-    <mxGraphModel dx="1332" dy="988" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1155" dy="1956" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="YLrN16T87f73P50CtAJ6-1" value="Forwarder" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="340" y="200" width="120" height="60" as="geometry" />
+          <mxGeometry x="330" y="-10" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="YLrN16T87f73P50CtAJ6-2" value="flushErc20" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="340" y="320" width="120" height="30" as="geometry" />
+          <mxGeometry x="450" y="110" width="120" height="30" as="geometry" />
         </mxCell>
         <mxCell id="YLrN16T87f73P50CtAJ6-3" value="flushNative" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="340" y="290" width="120" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="YLrN16T87f73P50CtAJ6-4" value="parent_address" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="340" y="260" width="120" height="30" as="geometry" />
+          <mxGeometry x="450" y="80" width="120" height="30" as="geometry" />
         </mxCell>
         <mxCell id="YLrN16T87f73P50CtAJ6-5" value="callable by anyone" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="460" y="290" width="120" height="60" as="geometry" />
+          <mxGeometry x="570" y="80" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="YLrN16T87f73P50CtAJ6-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="YLrN16T87f73P50CtAJ6-6" target="YLrN16T87f73P50CtAJ6-9" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -62,8 +59,8 @@
         <mxCell id="YLrN16T87f73P50CtAJ6-16" value="webhook" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="990" y="530" width="130" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="YLrN16T87f73P50CtAJ6-18" value="Forwarder clone factory for cheap deployments" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="210" y="200" width="120" height="150" as="geometry" />
+        <mxCell id="YLrN16T87f73P50CtAJ6-18" value="Forwarder clone factory for cheap deployments" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="200" y="-10" width="120" height="160" as="geometry" />
         </mxCell>
         <mxCell id="YLrN16T87f73P50CtAJ6-19" value="queue or cronjob" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="680" y="640" width="130" height="60" as="geometry" />
@@ -297,13 +294,13 @@
         <mxCell id="qAUYeOdykLHGJDXNOfw6-27" value="computeAddress" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="470" y="1930" width="195" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="qAUYeOdykLHGJDXNOfw6-28" value="canForward" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="qAUYeOdykLHGJDXNOfw6-28" value="canFlush" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="470" y="1990" width="195" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="qAUYeOdykLHGJDXNOfw6-29" value="forwardNative" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="qAUYeOdykLHGJDXNOfw6-29" value="flushNative" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="470" y="2050" width="195" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="qAUYeOdykLHGJDXNOfw6-30" value="forwardToken" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="qAUYeOdykLHGJDXNOfw6-30" value="flushToken" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="470" y="2110" width="195" height="60" as="geometry" />
         </mxCell>
         <mxCell id="qAUYeOdykLHGJDXNOfw6-31" value="create" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -350,6 +347,15 @@
         </mxCell>
         <mxCell id="qAUYeOdykLHGJDXNOfw6-45" value="withdraw" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="480" y="2630" width="195" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="qAUYeOdykLHGJDXNOfw6-47" value="flush" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="qAUYeOdykLHGJDXNOfw6-48" value="forwardTo" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="50" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="qAUYeOdykLHGJDXNOfw6-52" value="event ForwarderFlushed(address to, address flusher, address token, uint value)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="200" y="170" width="500" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
