@@ -14,7 +14,7 @@ import { Chains } from '../types/chains';
 
 class PaymentsController {
   constructor(
-    private readonly forwarderService: ForwarderFactoryService,
+    private readonly forwarderFactoryService: ForwarderFactoryService,
     private readonly paymentsService: PaymentsService,
     private readonly withdrawalService: WithdrawalsService,
   ) {}
@@ -28,7 +28,7 @@ class PaymentsController {
     payment: Payment;
     withdrawalJob: WithdrawalJob;
   }> {
-    const { salt, address } = await this.forwarderService.computeAddress(
+    const { salt, address } = await this.forwarderFactoryService.computeAddress(
       params.chain,
       params.forwardTo,
     );

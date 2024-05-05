@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Forwarder {
     address public forwardTo;
 
-    // events
     event ForwarderFlushed(address to, address flusher, address token, uint value);
 
     constructor(address _forwardTo) {

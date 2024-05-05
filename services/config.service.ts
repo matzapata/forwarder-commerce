@@ -7,7 +7,7 @@ export class ConfigService {
 
   constructor() {
     this.config = {
-      FORWARD_TO: 'abc',
+      OWNER_PRIVATE_KEY: process.env.OWNER_PRIVATE_KEY as string,
     };
     this.forwarderFactoryAddresses = {
       [Chains.POLYGON]: process.env.POLYGON_FORWARDER_FACTORY_ADDRESS as string,

@@ -25,7 +25,7 @@ export class WithdrawalJobsRepository {
     let job: WithdrawalWithPayment | null = null;
 
     await this.prismaService.$transaction(async (tx) => {
-      job = await this.prismaService.withdrawalJob.findUnique({
+      job = await this.prismaService.withdrawalJob.findFirst({
         where: {
           id,
           status: WithdrawalJobStatus.PENDING,
@@ -49,15 +49,15 @@ export class WithdrawalJobsRepository {
   async completeJob(id: string) {
     return this.prismaService.withdrawalJob.update({
       where: { id },
-      data: { status: WithdrawalJobStatus.COMPLETED },
+      data: { status: WithdrawalJobStatus.COMPLETED, completedAt: new Date() },
     });
   }
 
-  async failJob(id: string) {
+  async releaseJob(id: string) {
     return this.prismaService.withdrawalJob.update({
       where: { id },
       data: {
-        status: WithdrawalJobStatus.COMPLETED,
+        status: WithdrawalJobStatus.PENDING,
 
         // reschedule the job in one minute
         scheduledAt: new Date(Date.now() + 1000 * 60 * 1),

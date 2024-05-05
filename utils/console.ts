@@ -9,6 +9,7 @@ export const printPayment = (payment: Payment) => {
   console.log('  chain: ', payment.chain);
   console.log('  forwarderAddress: ', payment.forwarderAddress);
   console.log('  status: ', payment.status);
+  console.log('  hash: ', payment.hash);
 };
 
 export const printWithdrawalJob = (withdrawalJob: WithdrawalJob) => {
@@ -16,7 +17,6 @@ export const printWithdrawalJob = (withdrawalJob: WithdrawalJob) => {
   console.log(' id: ', withdrawalJob.id);
   console.log(' paymentId: ', withdrawalJob.paymentId);
   console.log(' status: ', withdrawalJob.status);
-  // console.log("txHash: ", withdrawalJob.txHash)
 };
 
 export const printLine = () => {

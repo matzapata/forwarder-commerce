@@ -1,4 +1,4 @@
-import { Payment, WithdrawalJob } from '@prisma/client';
+import { WithdrawalJob } from '@prisma/client';
 import {
   WithdrawalsService,
   withdrawalService,
@@ -15,9 +15,12 @@ class WithdrawalsController {
     return this.withdrawalService.findAll();
   }
 
-  startWorker() {
-    // Start the withdrawal worker
-    throw new Error('Method not implemented.');
+  consume(): Promise<void> {
+    return this.withdrawalService.consume();
+  }
+
+  consumeOne(id: string): Promise<WithdrawalJob | null> {
+    return this.withdrawalService.consumeOne(id);
   }
 }
 

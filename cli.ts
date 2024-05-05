@@ -82,7 +82,7 @@ program
     }
   });
 
-// =========== withdraw ===========
+// =========== withdrawals-jobs ===========
 
 program
   .command('withdrawals-jobs:consume')
@@ -91,16 +91,16 @@ program
   .action(async (id) => {
     // validate input
     const withdrawSchema = z.string();
-    const paymentId = withdrawSchema.parse(id);
+    const withdrawalId = withdrawSchema.parse(id);
 
-    // call controller
-    // const { payment, withdrawalJob } = await withdrawalsController.consume(paymentId)
+    const job = await withdrawalsController.consumeOne(withdrawalId);
 
-    // print result
-    // console.log(chalk.blue("Payment:"))
-    // printPayment(payment)
-    // console.log(chalk.blue("Withdrawal Job:"))
-    // console.log("id: ", withdrawalJob.id)
+    if (!job) {
+      return console.log(chalk.red('No job found'));
+    } else {
+      console.log(chalk.green(`Job ${job.id} processed`));
+      printWithdrawalJob(job);
+    }
   });
 
 program
@@ -108,7 +108,7 @@ program
   .description('Start consuming withdrawal jobs in a loop')
   .action(async () => {
     console.log(chalk.green('Starting withdrawal worker'));
-    withdrawalsController.startWorker();
+    await withdrawalsController.consume();
   });
 
 program
