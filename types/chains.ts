@@ -1,4 +1,4 @@
 
-enum Chains {
+export enum Chains {
     POLYGON = "POLYGON"
 }

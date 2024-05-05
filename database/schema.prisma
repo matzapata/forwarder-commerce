@@ -37,9 +37,9 @@ model WithdrawalJob {
 
   // timestamps
   createdAt   DateTime  @default(now())
+  scheduledAt DateTime
   starterAt   DateTime?
   completedAt DateTime?
-  scheduledAt DateTime?
 
   // relationships
   payment   Payment? @relation(fields: [paymentId], references: [id])

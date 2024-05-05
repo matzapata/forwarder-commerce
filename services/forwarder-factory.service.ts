@@ -3,6 +3,7 @@ import { Contract, ethers } from 'ethers';
 import { forwarderFactoryAbi } from '../utils/forwarder-factory-abi';
 import { EvmConnectionFactory, evmConnectionFactory } from '../utils/connection';
 import { ConfigService, configService } from './config.service';
+import { Chains } from '../types/chains';
 
 export class ForwarderFactoryService {
 

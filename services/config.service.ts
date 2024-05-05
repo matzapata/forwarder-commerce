@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { Chains } from "../types/chains";
 
 export class ConfigService {
     private readonly config: Record<string, string>;

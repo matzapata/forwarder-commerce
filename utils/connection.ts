@@ -1,4 +1,6 @@
 import { ethers } from "ethers";
+import { Chains } from "../types/chains";
+import "dotenv/config";
 
 export class EvmConnectionFactory {
     

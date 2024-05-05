@@ -4,6 +4,7 @@ import { PaymentsService, paymentsService } from "../services/payments.service";
 import { PaymentStatus } from "../types/payment-status";
 import { WithdrawalService, withdrawalService } from "../services/withdraw.service";
 import { WithdrawalJobStatus } from "../types/withdrawal-job-status";
+import { Chains } from "../types/chains";
 
 
 class PaymentsController {
@@ -18,10 +19,8 @@ class PaymentsController {
         payment: Payment,
         withdrawalJob: WithdrawalJob
     }> {
-        // compute address
         const { salt, address } = await this.forwarderService.computeAddress(params.chain, params.forwardTo);
 
-        // save payment to db
         const payment = await this.paymentsService.create({
             amount: params.amount,
             token: params.token,
@@ -33,9 +32,10 @@ class PaymentsController {
             status: PaymentStatus.PENDING,
         });
 
-        // cerate withdrawal job
+        // Schedule withdrawal job in one minute
         const withdrawalJob = await this.withdrawalService.push({
            status: WithdrawalJobStatus.PENDING,
+           scheduledAt: new Date(Date.now() + 1000 * 60), 
            payment: { connect: { id: payment.id } }
         });
 
