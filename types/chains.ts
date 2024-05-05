@@ -1,4 +1,3 @@
-
 export enum Chains {
-    POLYGON = "POLYGON"
+  POLYGON = 'POLYGON',
 }

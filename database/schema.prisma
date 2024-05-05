@@ -12,7 +12,7 @@ datasource db {
 }
 
 model Payment {
-  id               String @id @default(cuid())
+  id               String  @id @default(cuid())
   amount           String
   token            String
   chain            String
@@ -20,9 +20,9 @@ model Payment {
   salt             String
   forwarderAddress String
   forwardTo        String
+  hash             String?
 
   // timestamps
-  expiredAt DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -31,17 +31,17 @@ model Payment {
 }
 
 model WithdrawalJob {
-  id     String  @id @default(cuid())
+  id     String @id @default(cuid())
   status String
-  hash   String?
 
   // timestamps
   createdAt   DateTime  @default(now())
+  expiresAt   DateTime
   scheduledAt DateTime
-  starterAt   DateTime?
+  startedAt   DateTime?
   completedAt DateTime?
 
   // relationships
-  payment   Payment? @relation(fields: [paymentId], references: [id])
-  paymentId String   @unique
+  payment   Payment @relation(fields: [paymentId], references: [id])
+  paymentId String  @unique
 }
