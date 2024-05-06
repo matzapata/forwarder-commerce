@@ -7,9 +7,9 @@ Create unique addresses for payments simplifying user experience. Accept payment
 TODO:
 - Only owner or forwardTo can withdraw
 - Screenshot system design
-- QR generation
 - Webhooks
 - Basic website? create payment / pay
+- Contract interactions?
 
 # Example usage
 
@@ -43,6 +43,7 @@ TODO:
 
 ## Example transactions
 
+POLYGON:
 Deploy forward factory -> `0xaeaaf0b556c1186b4ffd962fee334ebe5e008a443ec4e73f7621950c83199e49`
 Forwarder factory at -> `0xA2cd5A70cd0299EF47d76c460930923e69a68Cc7`
 Create forwarder -> `0x2b7a9a2a76e314184bf008e443ab37535273e32089eea7a53ff8c260231bf345`

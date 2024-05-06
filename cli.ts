@@ -4,7 +4,12 @@ import { paymentsController } from './controllers/payments.controller';
 import { z } from 'zod';
 import { prismaService } from './services/prisma.service';
 import chalk from 'chalk';
-import { printLine, printPayment, printWithdrawalJob } from './utils/console';
+import {
+  printLine,
+  printPayment,
+  printPaymentInstructions,
+  printWithdrawalJob,
+} from './utils/console';
 import { withdrawalsController } from './controllers/withdrawals.controller';
 import { Chains } from './types/chains';
 
@@ -45,6 +50,9 @@ program
 
     printPayment(payment);
     printWithdrawalJob(withdrawalJob);
+
+    printLine();
+    printPaymentInstructions(payment);
   });
 
 program
