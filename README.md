@@ -7,7 +7,7 @@ Metamask, phantom etc are great but the list never ends, chances are users use a
 
 # Design
 
-<img src="./design//Forwarder.drawio.png" >
+<img src="./design/forwarder-commerce-uml.png" >
 
 # Example usage
 
